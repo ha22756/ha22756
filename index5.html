@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام تشخيص السكري ومقدماته</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2A5C82;
+            --secondary: #5BA4E6;
+            --danger: #E74C3C;
+            --warning: #F1C40F;
+            --success: #27AE60;
+            --light: #f8fafc;
+            --dark: #1a3a5a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 1300px;
+            margin: 20px auto;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 90vh;
+            transition: all 0.4s ease;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .header {
+            background: linear-gradient(120deg, var(--primary), var(--dark));
+            color: white;
+            padding: 1.8rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='0.1' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,117.3C672,107,768,117,864,138.7C960,160,1056,192,1152,197.3C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            opacity: 0.2;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            position: relative;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header h1 i {
+            font-size: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .form-section {
+            padding: 2.5rem;
+            background: var(--light);
+            border-right: 1px solid #eaeaea;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .result-section {
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+        }
+
+        .criteria {
+            background: linear-gradient(to right, #f1f7fe, #e6f2ff);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--primary);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .criteria:hover {
+            transform: translateY(-5px);
+        }
+
+        .criteria h2 {
+            color: var(--primary);
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+        }
+
+        .criteria h2 i {
+            font-size: 1.3rem;
+        }
+
+        .criteria p {
+            margin: 0.8rem 0;
+            padding-right: 15px;
+            position: relative;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .criteria p::before {
+            content: "•";
+            position: absolute;
+            right: -15px;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.8rem;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.8rem;
+            color: var(--primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+        }
+
+        .required::after {
+            content: " *";
+            color: var(--danger);
+        }
+
+        .optional::after {
+            content: " (اختياري)";
+            color: #777;
+            font-weight: normal;
+            font-size: 0.9rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            font-family: 'Tajawal', sans-serif;
+            background: white;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(91, 164, 230, 0.25);
+        }
+
+        .personal-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 1.8rem;
+        }
+
+        .personal-info .form-group {
+            margin-bottom: 0;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1.1rem 1.8rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            flex: 1;
+            min-width: 220px;
+            transition: all 0.3s;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-family: 'Tajawal', sans-serif;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        button:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #analyze-btn {
+            background: linear-gradient(to right, var(--primary), #3a7bb8);
+            font-size: 1.2rem;
+            padding: 1.2rem;
+        }
+
+        #print-btn {
+            background: linear-gradient(to right, #5c6bc0, #3f51b5);
+        }
+
+        #email-btn {
+            background: linear-gradient(to right, #27ae60, #219653);
+        }
+
+        #reset-btn {
+            background: linear-gradient(to right, #7f8c8d, #6c7a89);
+        }
+
+        #print-btn:hover {
+            background: #3f51b5;
+        }
+
+        #email-btn:hover {
+            background: #219653;
+        }
+
+        #reset-btn:hover {
+            background: #6c7a89;
+        }
+
+        .result {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            border-radius: 15px;
+            background: white;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: auto;
+            border: 1px solid #eaeaea;
+        }
+
+        .diagnosis {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .diabetic {
+            background: linear-gradient(to right, #fee, #ffdfdf);
+            color: var(--danger);
+            border-left: 5px solid var(--danger);
+        }
+
+        .prediabetic {
+            background: linear-gradient(to right, #ffd, #fff8df);
+            color: var(--warning);
+            border-left: 5px solid var(--warning);
+        }
+
+        .normal {
+            background: linear-gradient(to right, #e8f5e9, #dff0d8);
+            color: var(--success);
+            border-left: 5px solid var(--success);
+        }
+
+        .details {
+            margin-top: 1.5rem;
+            padding: 1.8rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f0f0f0;
+        }
+
+        .details p {
+            margin: 1.2rem 0;
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed #eee;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .details p:hover {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .details p:last-child {
+            border-bottom: none;
+        }
+
+        .details span:first-child {
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .print-info {
+            background: #f5f9ff;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+            border-top: 2px dashed #ddd;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .print-info div {
+            text-align: center;
+            padding: 1rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .print-info div:hover {
+            transform: translateY(-5px);
+        }
+
+        .print-info div span {
+            display: block;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 2.5rem;
+            color: #777;
+            font-size: 1rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        .email-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 550px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            position: relative;
+            animation: modalAppear 0.5s ease;
+        }
+
+        @keyframes modalAppear {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.8rem;
+        }
+
+        .modal-header h2 {
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #777;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            color: var(--danger);
+            transform: rotate(90deg);
+        }
+
+        .form-group-modal {
+            margin-bottom: 1.8rem;
+        }
+
+        .email-btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 1rem;
+        }
+
+        .email-btn-group button {
+            min-width: 120px;
+            font-size: 1.1rem;
+            padding: 1rem 1.5rem;
+        }
+
+        #send-email-btn {
+            background: linear-gradient(to right, #27ae60, #219653);
+        }
+
+        #cancel-email-btn {
+            background: linear-gradient(to right, #95a5a6, #7f8c8d);
+        }
+
+        #send-email-btn:hover {
+            background: #219653;
+        }
+
+        #cancel-email-btn:hover {
+            background: #7f8c8d;
+        }
+
+        .error-message {
+            color: var(--danger);
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            display: none;
+            font-weight: 500;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            margin-top: 10px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress {
+            height: 100%;
+            background: var(--secondary);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .status-message {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: 500;
+            display: none;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .container, .container * {
+                visibility: visible;
+            }
+            .container {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                max-width: 100%;
+                box-shadow: none;
+                grid-template-columns: 1fr;
+            }
+            .form-section {
+                display: none;
+            }
+            .btn-group, #analyze-btn {
+                display: none !important;
+            }
+            .result {
+                box-shadow: none;
+                border: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .personal-info {
+                grid-template-columns: 1fr;
+            }
+            .btn-group {
+                flex-direction: column;
+            }
+            .print-info {
+                grid-template-columns: 1fr;
+            }
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            .form-section, .result-section {
+                padding: 1.5rem;
+            }
+            .diagnosis {
+                font-size: 1.5rem;
+                padding: 1rem;
+            }
+        }
+
+        .info-icon {
+            margin-right: 8px;
+            color: var(--primary);
+            cursor: help;
+            position: relative;
+        }
+
+        .info-icon:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            z-index: 100;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-section">
+            <div class="header">
+                <h1><i class="fas fa-heartbeat"></i> نظام تشخيص السكري ومقدماته</h1>
+            </div>
+            
+            <div class="criteria">
+                <h2><i class="fas fa-info-circle"></i> المعايير التشخيصية (حسب ADA):</h2>
+                <p>الجلوكوز الصائم: 70-99 ملغ/ديسيلتر</p>
+                <p>الهيموجلوبين السكري (A1C): أقل من 5.7%</p>
+                <p>تشخيص السكري: جلوكوز صائم ≥ 126 أو A1C ≥ 6.5%</p>
+                <p>مرحلة ما قبل السكري: جلوكوز صائم 100-125 أو A1C 5.7-6.4%</p>
+            </div>
+
+            <div class="personal-info">
+                <div class="form-group">
+                    <label for="name" class="required"><i class="fas fa-user"></i> الاسم الكامل</label>
+                    <input type="text" id="name" placeholder="أدخل الاسم الكامل">
+                    <div class="error-message" id="name-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="age" class="required"><i class="fas fa-birthday-cake"></i> العمر</label>
+                    <input type="number" id="age" placeholder="أدخل العمر">
+                    <div class="error-message" id="age-error"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="gender" class="required"><i class="fas fa-venus-mars"></i> الجنس</label>
+                <select id="gender">
+                    <option value="">اختر الجنس</option>
+                    <option value="ذكر">ذكر</option>
+                    <option value="أنثى">أنثى</option>
+                </select>
+                <div class="error-message" id="gender-error"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="date" class="required"><i class="fas fa-calendar"></i> تاريخ الفحص</label>
+                <input type="date" id="date">
+                <div class="error-message" id="date-error"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="glucose" class="required"><i class="fas fa-vial"></i> الجلوكوز الصائم (mg/dL)
+                    <i class="fas fa-info-circle info-icon" data-tooltip="قياس مستوى الجلوكوز بعد صيام 8 ساعات"></i>
+                </label>
+                <input type="number" step="0.1" id="glucose" placeholder="أدخل القيمة">
+                <div class="error-message" id="glucose-error"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="a1c" class="optional"><i class="fas fa-microscope"></i> الهيموجلوبين السكري (%)
+                    <i class="fas fa-info-circle info-icon" data-tooltip="قياس متوسط مستوى السكر في الدم خلال 2-3 أشهر"></i>
+                </label>
+                <input type="number" step="0.1" id="a1c" placeholder="أدخل القيمة (اختياري)">
+                <div class="error-message" id="a1c-error"></div>
+            </div>
+
+            <button id="analyze-btn">
+                <i class="fas fa-stethoscope"></i> تحليل النتائج
+            </button>
+
+            <div class="btn-group">
+                <button id="reset-btn">
+                    <i class="fas fa-redo"></i> إعادة تعيين
+                </button>
+            </div>
+        </div>
+
+        <div class="result-section">
+            <div class="header">
+                <h1><i class="fas fa-file-medical-alt"></i> نتائج التشخيص</h1>
+            </div>
+            
+            <div id="result" class="result">
+                <div class="diagnosis" style="background: linear-gradient(to right, #f8f9fa, #f0f2f5); color: #777; border-left: 5px solid #ddd;">
+                    <i class="fas fa-info-circle"></i> سيتم عرض النتائج هنا بعد التحليل
+                </div>
+                
+                <div class="details">
+                    <p>
+                        <span>الجلوكوز الصائم:</span>
+                        <span id="glucose-result">-</span>
+                    </p>
+                    <p>
+                        <span>الهيموجلوبين السكري:</span>
+                        <span id="a1c-result">-</span>
+                    </p>
+                    <p>
+                        <span>التشخيص:</span>
+                        <span id="diagnosis-type">-</span>
+                    </p>
+                    <p>
+                        <span>التوصيات:</span>
+                        <span id="advice-text">-</span>
+                    </p>
+                </div>
+                
+                <div class="print-info">
+                    <div>
+                        <span>الاسم:</span>
+                        <span id="print-name">-</span>
+                    </div>
+                    <div>
+                        <span>العمر:</span>
+                        <span id="print-age">-</span>
+                    </div>
+                    <div>
+                        <span>الجنس:</span>
+                        <span id="print-gender">-</span>
+                    </div>
+                    <div>
+                        <span>تاريخ الفحص:</span>
+                        <span id="print-date">-</span>
+                    </div>
+                    <div>
+                        <span>رقم التقرير:</span>
+                        <span id="report-number">-</span>
+                    </div>
+                    <div>
+                        <span>حالة التقرير:</span>
+                        <span id="report-status">غير محدد</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button id="print-btn">
+                    <i class="fas fa-print"></i> طباعة النتائج
+                </button>
+                <button id="email-btn">
+                    <i class="fas fa-envelope"></i> إرسال عبر البريد
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="email-modal" class="email-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-paper-plane"></i> إرسال النتائج عبر البريد الإلكتروني</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            
+            <div class="form-group-modal">
+                <label for="sender-email"><i class="fas fa-user"></i> بريد المرسل</label>
+                <input type="email" id="sender-email" placeholder="بريدك الإلكتروني">
+            </div>
+            
+            <div class="form-group-modal">
+                <label for="receiver-email"><i class="fas fa-envelope"></i> بريد المستلم</label>
+                <input type="email" id="receiver-email" placeholder="بريد المستلم">
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress" id="email-progress"></div>
+            </div>
+            <div class="status-message" id="email-status">جاري الإرسال...</div>
+            
+            <div class="email-btn-group">
+                <button id="cancel-email-btn">إلغاء</button>
+                <button id="send-email-btn">إرسال</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // تعيين التاريخ الحالي عند تحميل الصفحة
+        function setCurrentDate() {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            const formattedDate = `${year}-${month}-${day}`;
+            document.getElementById("date").value = formattedDate;
+        }
+
+        // توليد رقم تقرير عشوائي
+        function generateReportNumber() {
+            const randomNum = Math.floor(Math.random() * 9000) + 1000;
+            const year = new Date().getFullYear();
+            return `RPT-${randomNum}-${year}`;
+        }
+
+        // تصنيف حالة السكري بناءً على القيم
+        function classifyDiabetes(glucose, a1c) {
+            // تحقق إذا كان كلا القيمتين غير مدخلتين
+            if (glucose === null && a1c === null) {
+                return {
+                    status: 'error',
+                    text: 'خطأ في البيانات',
+                    advice: 'الرجاء إدخال قيمة الجلوكوز الصائم أو الهيموجلوبين السكري على الأقل',
+                    icon: 'fas fa-exclamation-triangle'
+                };
+            }
+            
+            // إذا كان الجلوكوز مدخلًا وA1C غير مدخل
+            if (glucose !== null && a1c === null) {
+                if (glucose >= 126) {
+                    return {
+                        status: 'diabetic',
+                        text: 'تشخيص السكري (بناءً على الجلوكوز الصائم)',
+                        advice: 'يجب مراجعة طبيب مختص فوراً لإجراء فحوصات إضافية وتحديد خطة علاجية مناسبة',
+                        icon: 'fas fa-exclamation-triangle'
+                    };
+                } else if (glucose >= 100 && glucose < 126) {
+                    return {
+                        status: 'prediabetic',
+                        text: 'مرحلة ما قبل السكري (بناءً على الجلوكوز الصائم)',
+                        advice: 'ننصح باتباع نظام غذائي صحي، ممارسة الرياضة بانتظام، ومراقبة مستويات السكر دورياً',
+                        icon: 'fas fa-exclamation-circle'
+                    };
+                } else {
+                    return {
+                        status: 'normal',
+                        text: 'مستويات سكر طبيعية (بناءً على الجلوكوز الصائم)',
+                        advice: 'حافظ على نمط حياة صحي، نظام غذائي متوازن، وممارسة الرياضة بانتظام',
+                        icon: 'fas fa-check-circle'
+                    };
+                }
+            }
+            
+            // إذا كان A1C مدخلًا والجلوكوز غير مدخل
+            if (glucose === null && a1c !== null) {
+                if (a1c >= 6.5) {
+                    return {
+                        status: 'diabetic',
+                        text: 'تشخيص السكري (بناءً على الهيموجلوبين السكري)',
+                        advice: 'يجب مراجعة طبيب مختص فوراً لإجراء فحوصات إضافية وتحديد خطة علاجية مناسبة',
+                        icon: 'fas fa-exclamation-triangle'
+                    };
+                } else if (a1c >= 5.7 && a1c < 6.5) {
+                    return {
+                        status: 'prediabetic',
+                        text: 'مرحلة ما قبل السكري (بناءً على الهيموجلوبين السكري)',
+                        advice: 'ننصح باتباع نظام غذائي صحي، ممارسة الرياضة بانتظام، ومراقبة مستويات السكر دورياً',
+                        icon: 'fas fa-exclamation-circle'
+                    };
+                } else {
+                    return {
+                        status: 'normal',
+                        text: 'مستويات سكر طبيعية (بناءً على الهيموجلوبين السكري)',
+                        advice: 'حافظ على نمط حياة صحي، نظام غذائي متوازن، وممارسة الرياضة بانتظام',
+                        icon: 'fas fa-check-circle'
+                    };
+                }
+            }
+            
+            // إذا كان كلا القيمتين مدخلتين
+            if (glucose >= 126 || a1c >= 6.5) {
+                return {
+                    status: 'diabetic',
+                    text: 'تشخيص السكري النوع 1 أو 2',
+                    advice: 'يجب مراجعة طبيب مختص فوراً لإجراء فحوصات إضافية وتحديد خطة علاجية مناسبة',
+                    icon: 'fas fa-exclamation-triangle'
+                };
+            } else if ((glucose >= 100 && glucose < 126) || (a1c >= 5.7 && a1c < 6.5)) {
+                return {
+                    status: 'prediabetic',
+                    text: 'مرحلة ما قبل السكري',
+                    advice: 'ننصح باتباع نظام غذائي صحي، ممارسة الرياضة بانتظام، ومراقبة مستويات السكر دورياً',
+                    icon: 'fas fa-exclamation-circle'
+                };
+            } else {
+                return {
+                    status: 'normal',
+                    text: 'مستويات سكر طبيعية',
+                    advice: 'حافظ على نمط حياة صحي، نظام غذائي متوازن، وممارسة الرياضة بانتظام',
+                    icon: 'fas fa-check-circle'
+                };
+            }
+        }
+
+        // التحقق من صحة البيانات المدخلة
+        function validateForm() {
+            const requiredFields = [
+                { id: "name", errorId: "name-error", message: "الرجاء إدخال الاسم الكامل" },
+                { id: "age", errorId: "age-error", message: "الرجاء إدخال العمر" },
+                { id: "gender", errorId: "gender-error", message: "الرجاء اختيار الجنس" },
+                { id: "date", errorId: "date-error", message: "الرجاء إدخال تاريخ الفحص" }
+            ];
+            
+            let isValid = true;
+            
+            // التحقق من الحقول الإجبارية
+            requiredFields.forEach(field => {
+                const element = document.getElementById(field.id);
+                const errorElement = document.getElementById(field.errorId);
+                
+                if (!element.value) {
+                    errorElement.style.display = "block";
+                    errorElement.textContent = field.message;
+                    element.style.borderColor = "#E74C3C";
+                    isValid = false;
+                } else {
+                    errorElement.style.display = "none";
+                    element.style.borderColor = "#ddd";
+                }
+            });
+            
+            // التحقق من وجود قيمة على الأقل في أحد حقلين السكري
+            const glucose = document.getElementById("glucose").value;
+            const a1c = document.getElementById("a1c").value;
+            
+            if (!glucose && !a1c) {
+                document.getElementById("glucose-error").style.display = "block";
+                document.getElementById("glucose-error").textContent = "الرجاء إدخال قيمة الجلوكوز الصائم أو الهيموجلوبين السكري على الأقل";
+                document.getElementById("glucose").style.borderColor = "#E74C3C";
+                
+                document.getElementById("a1c-error").style.display = "block";
+                document.getElementById("a1c-error").textContent = "الرجاء إدخال قيمة الجلوكوز الصائم أو الهيموجلوبين السكري على الأقل";
+                document.getElementById("a1c").style.borderColor = "#E74C3C";
+                
+                isValid = false;
+            } else {
+                document.getElementById("glucose-error").style.display = "none";
+                document.getElementById("a1c-error").style.display = "none";
+                document.getElementById("glucose").style.borderColor = "#ddd";
+                document.getElementById("a1c").style.borderColor = "#ddd";
+            }
+            
+            return isValid;
+        }
+
+        // إخفاء جميع رسائل الخطأ
+        function hideAllErrors() {
+            const errorIds = ["name-error", "age-error", "gender-error", "date-error", "glucose-error", "a1c-error"];
+            errorIds.forEach(id => {
+                const errorElement = document.getElementById(id);
+                if (errorElement) {
+                    errorElement.style.display = "none";
+                }
+            });
+            
+            const fields = ["name", "age", "gender", "date", "glucose", "a1c"];
+            fields.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.style.borderColor = "#ddd";
+                }
+            });
+        }
+
+        // تحليل النتائج وعرضها
+        function analyzeDiabetes() {
+            hideAllErrors();
+            
+            if (!validateForm()) {
+                return;
+            }
+
+            try {
+                const name = document.getElementById("name").value;
+                const age = document.getElementById("age").value;
+                const gender = document.getElementById("gender").value;
+                const date = document.getElementById("date").value;
+                
+                // الحصول على القيم الاختيارية (تترك فارغة إذا لم يتم إدخالها)
+                const glucoseInput = document.getElementById("glucose").value;
+                const glucose = glucoseInput ? parseFloat(glucoseInput) : null;
+                
+                const a1cInput = document.getElementById("a1c").value;
+                const a1c = a1cInput ? parseFloat(a1cInput) : null;
+                
+                const result = classifyDiabetes(glucose, a1c);
+                const reportNumber = generateReportNumber();
+                
+                const resultDiv = document.getElementById("result");
+                resultDiv.innerHTML = `
+                    <div class="diagnosis ${result.status}">
+                        <i class="${result.icon}"></i> ${result.text}
+                    </div>
+                    <div class="details">
+                        <p>
+                            <span>الجلوكوز الصائم:</span>
+                            <span>${glucose !== null ? glucose + ' mg/dL' : 'لم يتم الإدخال'}</span>
+                        </p>
+                        <p>
+                            <span>الهيموجلوبين السكري:</span>
+                            <span>${a1c !== null ? a1c + '%' : 'لم يتم الإدخال'}</span>
+                        </p>
+                        <p>
+                            <span>التشخيص:</span>
+                            <span>${result.text}</span>
+                        </p>
+                        <p>
+                            <span>التوصيات:</span>
+                            <span>${result.advice}</span>
+                        </p>
+                    </div>
+                    <div class="print-info">
+                        <div>
+                            <span>الاسم:</span>
+                            <span>${name}</span>
+                        </div>
+                        <div>
+                            <span>العمر:</span>
+                            <span>${age} سنة</span>
+                        </div>
+                        <div>
+                            <span>الجنس:</span>
+                            <span>${gender}</span>
+                        </div>
+                        <div>
+                            <span>تاريخ الفحص:</span>
+                            <span>${date}</span>
+                        </div>
+                        <div>
+                            <span>رقم التقرير:</span>
+                            <span>${reportNumber}</span>
+                        </div>
+                        <div>
+                            <span>حالة التقرير:</span>
+                            <span>تم التحليل بنجاح</span>
+                        </div>
+                    </div>
+                `;
+            } catch (e) {
+                showError("حدث خطأ في معالجة البيانات، الرجاء التحقق من القيم المدخلة");
+            }
+        }
+
+        // عرض رسالة خطأ
+        function showError(message) {
+            const resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = `
+                <div class="diagnosis" style="background: linear-gradient(to right, #fef3e2, #fdebd0); color: #d35400; border-left: 5px solid #d35400;">
+                    <i class="fas fa-exclamation-circle"></i> ${message}
+                </div>
+                <div class="details">
+                    <p>
+                        <span>الجلوكوز الصائم:</span>
+                        <span>-</span>
+                    </p>
+                    <p>
+                        <span>الهيموجلوبين السكري:</span>
+                        <span>-</span>
+                    </p>
+                    <p>
+                        <span>التشخيص:</span>
+                        <span>-</span>
+                    </p>
+                    <p>
+                        <span>التوصيات:</span>
+                        <span>-</span>
+                    </p>
+                </div>
+                <div class="print-info">
+                    <div>
+                        <span>الاسم:</span>
+                        <span>-</span>
+                    </div>
+                    <div>
+                        <span>العمر:</span>
+                        <span>-</span>
+                    </div>
+                    <div>
+                        <span>الجنس:</span>
+                        <span>-</span>
+                    </div>
+                    <div>
+                        <span>تاريخ الفحص:</span>
+                        <span>-</span>
+                    </div>
+                    <div>
+                        <span>رقم التقرير:</span>
+                        <span>-</span>
+                    </div>
+                    <div>
+                        <span>حالة التقرير:</span>
+                        <span>خطأ في البيانات</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // طباعة النتائج
+        function printResults() {
+            window.print();
+        }
+
+        // فتح نافذة إرسال البريد
+        function openEmailModal() {
+            document.getElementById("email-modal").style.display = "flex";
+        }
+
+        // إغلاق نافذة إرسال البريد
+        function closeEmailModal() {
+            document.getElementById("email-modal").style.display = "none";
+            // إعادة تعيين شريط التقدم
+            document.getElementById("email-progress").style.width = "0%";
+            document.getElementById("email-status").style.display = "none";
+            document.getElementById("email-status").textContent = "جاري الإرسال...";
+        }
+
+        // محاكاة إرسال البريد
+        function sendEmail() {
+            const sender = document.getElementById("sender-email").value;
+            const receiver = document.getElementById("receiver-email").value;
+            
+            if (!sender || !sender.includes("@")) {
+                alert("الرجاء إدخال بريد مرسل صحيح");
+                return;
+            }
+            
+            if (!receiver || !receiver.includes("@")) {
+                alert("الرجاء إدخال بريد مستلم صحيح");
+                return;
+            }
+            
+            // عرض شريط التقدم
+            document.querySelector(".progress-bar").style.display = "block";
+            document.getElementById("email-status").style.display = "block";
+            
+            // محاكاة عملية الإرسال
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 5;
+                document.getElementById("email-progress").style.width = `${progress}%`;
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    document.getElementById("email-status").textContent = "تم الإرسال بنجاح!";
+                    
+                    // إغلاق النافذة بعد 2 ثانية
+                    setTimeout(() => {
+                        closeEmailModal();
+                        alert(`تم إرسال التقرير إلى ${receiver} بنجاح`);
+                    }, 2000);
+                }
+            }, 150);
+        }
+
+        // إعادة تعيين النموذج
+        function resetForm() {
+            document.getElementById("name").value = "";
+            document.getElementById("age").value = "";
+            document.getElementById("gender").value = "";
+            document.getElementById("glucose").value = "";
+            document.getElementById("a1c").value = "";
+            
+            hideAllErrors();
+            
+            const resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = `
+                <div class="diagnosis" style="background: linear-gradient(to right, #f8f9fa, #f0f2f5); color: #777; border-left: 5px solid #ddd;">
+                    <i class="fas fa-info-circle"></i> سيتم عرض النتائج هنا بعد التحليل
+                </div>
+                <div class="details">
+                    <p>
+                        <span>الجلوكوز الصائم:</span>
+                        <span>-</span>
+                    </p>
+                    <p>
+                        <span>الهيموجلوبين السكري:</span>
+                        <span>-</span>
+                    </p>
+                    <p>
+                        <span>التشخيص:</span>
+                        <span>-</span>
+                    </p>
+                    <p>
+                        <span>التوصيات:</span>
+                        <span>-</span>
+                    </p>
+                </div>
+                <div class="print-info">
+                    <div>
+                        <span>الاسم:</span>
+                        <span>-</span>
+                    </div>
+                    <div>
+                        <span>العمر:</span>
+                        <span>-</span>
+                    </div>
+                    <div>
+                        <span>الجنس:</span>
+                        <span>-</span>
+                    </div>
+                    <div>
+                        <span>تاريخ الفحص:</span>
+                        <span>-</span>
+                    </div>
+                    <div>
+                        <span>رقم التقرير:</span>
+                        <span>-</span>
+                    </div>
+                    <div>
+                        <span>حالة التقرير:</span>
+                        <span>غير محدد</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // تهيئة الصفحة عند التحميل
+        document.addEventListener('DOMContentLoaded', () => {
+            setCurrentDate();
+            
+            // إعداد معالجات الأحداث
+            document.getElementById("analyze-btn").addEventListener("click", analyzeDiabetes);
+            document.getElementById("print-btn").addEventListener("click", printResults);
+            document.getElementById("email-btn").addEventListener("click", openEmailModal);
+            document.querySelector(".close-btn").addEventListener("click", closeEmailModal);
+            document.getElementById("cancel-email-btn").addEventListener("click", closeEmailModal);
+            document.getElementById("send-email-btn").addEventListener("click", sendEmail);
+            document.getElementById("reset-btn").addEventListener("click", resetForm);
+            
+            // إغلاق النافذة عند النقر خارجها
+            window.addEventListener("click", (e) => {
+                if (e.target === document.getElementById("email-modal")) {
+                    closeEmailModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

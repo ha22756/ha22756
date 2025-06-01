@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حيث يلتقي الطب بالذكاء</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-light: #e8e2f2;
+            --primary: #75c3d6;
+            --primary-dark: #242542;
+            --accent-light: #e0f2f1;
+            --accent: #142f3d;
+            --accent-dark: #142f3d;
+            --text: #142f3d;
+            --text-light: #142f3d;
+            --white: #fafafa;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary-light), var(--accent-light));
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* القسم الرئيسي */
+        #hanan {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding-top: 80px;
+        }
+        
+        .hanan-content {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            width: 100%;
+        }
+        
+        .hanan-image {
+            flex: 1;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            height: 500px;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        
+        .hanan-text {
+            flex: 1;
+            padding: 30px;
+        }
+        
+        .hanan-text h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            color: var(--text);
+            font-weight: 600;
+            line-height: 1.2;
+        }
+        
+        .hanan-text h2 {
+            font-size: 2rem;
+            color: var(--primary-dark);
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+        
+        .square {
+            display: block;
+            width: 100px;
+            height: 5px;
+            background: var(--accent-dark);
+            margin: 25px 0;
+            border-radius: 3px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 14px 35px;
+            background: var(--accent-dark);
+            color: var(--white);
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(42, 54, 105, 0.3);
+        }
+        
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(28, 67, 70, 0.4);
+        }
+        
+        .lines {
+            display: flex;
+            gap: 12px;
+            margin-top: 50px;
+        }
+        
+        .line {
+            width: 4px;
+            height: 60px;
+            background: var(--accent-dark);
+            border-radius: 3px;
+            animation: lineAnimation 2s infinite;
+        }
+        
+        .line:nth-child(1) { animation-delay: 0s; }
+        .line:nth-child(2) { animation-delay: 0.2s; }
+        .line:nth-child(3) { animation-delay: 0.4s; }
+        .line:nth-child(4) { animation-delay: 0.6s; }
+        
+        @keyframes lineAnimation {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(1.8); }
+        }
+        
+        /* القائمة الجانبية */
+        #sidenav {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100%;
+            background: var(--white);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            transition: var(--transition);
+            padding: 80px 0 30px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #sidenav.active {
+            right: 0;
+        }
+        
+        #sidenav ul {
+            list-style: none;
+            padding: 0;
+            width: 100%;
+        }
+        
+        #sidenav ul li {
+            width: 100%;
+        }
+        
+        #sidenav ul li a {
+            display: block;
+            padding: 18px 30px;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 1.1rem;
+            transition: var(--transition);
+            border-right: 4px solid transparent;
+        }
+        
+        #sidenav ul li a:hover {
+            background: var(--primary-light);
+            border-right: 4px solid var(--accent-dark);
+            padding-right: 35px;
+        }
+        
+        #sidenav ul li a i {
+            margin-left: 10px;
+            width: 25px;
+            text-align: center;
+        }
+        
+        .descriptions {
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .description {
+            display: none;
+            background: var(--primary-light);
+            padding: 25px;
+            margin-top: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--accent-dark);
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .description h3 {
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .description p {
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+        
+        /* زر القائمة */
+        #menubtn {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--accent-dark);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1100;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        #menubtn:hover {
+            transform: scale(1.1);
+            background: var(--primary-dark);
+        }
+        
+        #menubtn span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--white);
+            margin: 2px 0;
+            transition: var(--transition);
+            border-radius: 1px;
+        }
+        
+        #menubtn.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        #menubtn.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        #menubtn.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+        
+        /* تذييل الصفحة */
+        footer {
+            background: var(--primary);
+            padding: 30px 0;
+            text-align: center;
+            color: var(--text-light);
+            margin-top: 50px;
+            font-size: 0.9rem;
+        }
+        
+        /* التكيف مع الشاشات الصغيرة */
+        @media (max-width: 900px) {
+            .hanan-content {
+                flex-direction: column;
+            }
+            
+            .hanan-image {
+                width: 100%;
+                height: 300px;
+            }
+            
+            .hanan-text {
+                text-align: center;
+            }
+            
+            .square, .lines {
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- زر القائمة -->
+    <div id="menubtn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    
+    <!-- القائمة الجانبية -->
+    <nav id="sidenav">
+        <ul>
+            <li><a href="#" onclick="showDescription('home')"><i class="fas fa-home"></i> الرئيسية</a></li>
+            <li><a href="#" onclick="showDescription('system')"><i class="fas fa-info-circle"></i> عن النظام</a></li>
+            <li><a href="#" onclick="showDescription('diseases')"><i class="fas fa-heartbeat"></i> الأمراض</a></li>
+            <li><a href="#" onclick="showDescription('contact')"><i class="fas fa-envelope"></i> اتصل بنا</a></li>
+        </ul>
+        
+        <div class="descriptions">
+            <div id="home-description" class="description">
+                <h3>مرحبًا بكم في نظام حنان الطبي</h3>
+                <p>نظام حنان يجمع بين الخبرة الطبية وتقنيات الذكاء الاصطناعي لتقديم حلول طبية مبتكرة. تم تصميم النظام لتقديم تشخيصات دقيقة وخطط علاج فعالة باستخدام أحدث التقنيات.</p>
+            </div>
+            
+            <div id="system-description" class="description">
+                <h3>عن النظام</h3>
+                <p>هذا نظام ذكي يجمع بين الطب والتكنولوجيا لتقديم حلول طبية مبتكرة. يعتمد النظام على الذكاء الاصطناعي لتحليل البيانات الطبية وتقديم التشخيصات الأولية باستخدام خوارزميات متقدمة تتعلم باستمرار من الحالات الطبية المختلفة.</p>
+                <p>يتميز النظام بقدرته على معالجة كميات كبيرة من البيانات الطبية في وقت قياسي، مما يساعد الأطباء على اتخاذ قرارات أكثر دقة ويسرع عملية التشخيص.</p>
+            </div>
+            
+            <div id="diseases-description" class="description">
+                <h3>الأمراض التي يعالجها النظام</h3>
+                <p>يتعامل النظام مع مجموعة واسعة من الأمراض المزمنة والحالات الطبية بما في ذلك:</p>
+                <ul>
+                    <li>أمراض السكري </li>
+                    <li>اضطرابات الغدد الصماء والهرمونات</li>
+                    <li>الأورام بأنواعها المختلفة</li>
+                    <li>أمراض الكلى والجهاز البولي</li>
+                    <li>امراض الدم</li>
+                
+                </ul>
+            </div>
+            
+            <div id="contact-description" class="description">
+                <h3>اتصل بنا</h3>
+                <p>يسعدنا تواصلكم معنا لأي استفسارات أو للحصول على دعم فني:</p>
+                <p><i class="fas fa-envelope"></i> البريد الإلكتروني: h.albasher@wau.edu.ly</p>
+                <p><i class="fas fa-phone"></i> الهاتف: 0921908255</p>
+                <p><i class="fas fa-map-marker-alt"></i> العنوان: جامعة وادي الشاطي - كلية الهندسة قسم الهندسة الطبية </p>
+                <p>ساعات العمل: من السبت إلى الخميس، من 8 صباحًا حتى 4 مساءً</p>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- القسم الرئيسي -->
+    <section id="hanan">
+        <div class="container">
+            <div class="hanan-content">
+                <div class="hanan-image">
+                    <div>الذكاء في خدمة الطب</div>
+                </div>
+                
+                <div class="hanan-text">
+                    <h1>Where Medicine Meets Intelligence</h1>
+                    <h2>حيث يلتقي الطب بالذكاء</h2>
+                    <span class="square"></span>
+                    <button class="btn" onclick="window.location.href='index1.html'">start</button>
+                    <p>نظام طبي متكامل يجمع بين الخبرة الطبية البشرية ودقة الذكاء الاصطناعي لتقديم أفضل الحلول التشخيصية </p>
+                    
+                    
+                    
+                    <div class="lines">
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="line"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- تذييل الصفحة -->
+    <footer>
+        <div class="container">
+            <p>© 2025 نظام حنان الطبي. جميع الحقوق محفوظة.</p>
+            
+        </div>
+    </footer>
+    
+    <script>
+        // التحكم في القائمة الجانبية
+        const menuBtn = document.getElementById('menubtn');
+        const sideNav = document.getElementById('sidenav');
+        
+        menuBtn.addEventListener('click', () => {
+            menuBtn.classList.toggle('active');
+            sideNav.classList.toggle('active');
+            
+            // إخفاء جميع الأوصاف عند إغلاق القائمة
+            if (!sideNav.classList.contains('active')) {
+                hideAllDescriptions();
+            }
+        });
+        
+        // إظهار الوصف المحدد
+        function showDescription(type) {
+            // إخفاء جميع الأوصاف أولاً
+            hideAllDescriptions();
+            
+            // إظهار الوصف المحدد
+            const selectedDesc = document.getElementById(type + '-description');
+            if (selectedDesc) {
+                selectedDesc.style.display = 'block';
+            }
+            
+            // إبقاء القائمة مفتوحة
+            menuBtn.classList.add('active');
+            sideNav.classList.add('active');
+            
+            return false;
+        }
+        
+        // إخفاء جميع الأوصاف
+        function hideAllDescriptions() {
+            const descriptions = document.getElementsByClassName('description');
+            for (let i = 0; i < descriptions.length; i++) {
+                descriptions[i].style.display = 'none';
+            }
+        }
+        
+        // إظهار وصف الرئيسية عند التحميل
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('home-description').style.display = 'block';
+        });
+    </script>
+</body>
+</html>

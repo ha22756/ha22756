@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام التشخيص الطبي</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2A5C82;
+            --secondary: #5BA4E6;
+            --accent: #FF7E67;
+            --light: #F8F9FC;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8f9fc 0%, #e6f0ff 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: var(--primary);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+        }
+
+        .disease-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+        }
+
+        .disease-card {
+            background: var(--light);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .disease-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            border-color: var(--secondary);
+        }
+
+        .disease-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            transition: 0.5s;
+        }
+
+        .disease-card:hover::before {
+            animation: shine 1.5s;
+        }
+
+        .disease-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            transition: 0.3s;
+        }
+
+        .disease-card:hover .disease-icon {
+            color: var(--secondary);
+            transform: scale(1.1);
+        }
+
+        .disease-name {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .disease-desc {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        @keyframes shine {
+            0% { left: -50%; }
+            100% { left: 150%; }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .disease-grid {
+                grid-template-columns: 1fr;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>النظام الخبير للتشخيص الطبي</h1>
+            <p>اختر نوع المرض لعرض التحاليل المطلوبة</p>
+        </div>
+        
+        <div class="disease-grid">
+            <div class="disease-card" onclick="window.location.href='index5.html'">
+                <i class='bx bx-test-tube disease-icon'></i>
+                <div class="disease-name">مرض السكري</div>
+                <div class="disease-desc">التحاليل المتعلقة بمستويات السكر والهيموجلوبين</div>
+            </div>
+
+            <div class="disease-card" onclick="window.location.href='index6.html'">
+                <i class='bx bx-heart disease-icon'></i>
+                <div class="disease-name">الاورام</div>
+                <div class="disease-desc">فحوصات دلائل الاورام </div>
+            </div>
+
+            <div class="disease-card" onclick="window.location.href='index222.html'">
+                <i class='bx bx-droplet disease-icon'></i>
+                <div class="disease-name">فقر الدم</div>
+                <div class="disease-desc">تحاليل الدم الشاملة وفحص الحديد</div>
+            </div>
+
+            <div class="disease-card" onclick="window.location.href='index7.html'">
+                <i class='bx bx-body disease-icon'></i>
+                <div class="disease-name">الغدة الدرقية</div>
+                <div class="disease-desc">فحص الهرمونات (TSH, T3, T4)</div>
+            </div>
+
+            <div class="disease-card" onclick="window.location.href='index4.html'">
+                <i class='bx bx-filter disease-icon'></i>
+                <div class="disease-name">أمراض الكلى</div>
+                <div class="disease-desc">تحاليل وظائف الكلى والبروتينات</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
